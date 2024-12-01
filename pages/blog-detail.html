@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog Detail</title>
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cuprum:wght@500;600;700&family=Poppins:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <script>
+    import { supabase } from '../assets/js/supabaseClient.js';
+    async function fetchBlogDetail() {
+      const params = new URLSearchParams(window.location.search);
+      const blogId = params.get('id');
+      if (!blogId) return;
+
+      const { data: blog, error } = await supabase
+        .from('blogs')
+        .select('*')
+        .eq('id', blogId)
+        .single();
+
+      if (error) {
+        console.error('Error fetching blog detail:', error);
+        return;
+      }
+
+      document.getElementById('blog-title').textContent = blog.title;
+      document.getElementById('blog-content').innerHTML = blog.content;
+    }
+
+    document.addEventListener('DOMContentLoaded', fetchBlogDetail);
+
+  </script>
+</head>
+
+<body>
+  <header class="header" data-header>
+    <div class="container">
+
+      <a href="#" class="logo">WebX</a>
+
+      <nav class="navbar" data-navbar>
+
+        <div class="wrapper">
+          <a href="../index.html" class="logo">WebX</a>
+
+          <button class="nav-close-btn" aria-label="close menu" data-nav-toggler>
+            <ion-icon name="close-outline" aria-hidden="true"></ion-icon>
+          </button>
+        </div>
+
+        <ul class="navbar-list">
+
+          <li>
+            <a href="#home" class="navbar-link" data-nav-link>Home</a>
+          </li>
+
+          <li>
+            <a href="#about" class="navbar-link" data-nav-link>About</a>
+          </li>
+
+          <li>
+            <a href="#services" class="navbar-link" data-nav-link>Services</a>
+          </li>
+
+          <li>
+            <a href="#features" class="navbar-link" data-nav-link>Features</a>
+          </li>
+
+          <li>
+            <a href="pages/blog.html" class="navbar-link" data-nav-link>Blog</a>
+          </li>
+
+        </ul>
+
+      </nav>
+
+      <button class="nav-open-btn" aria-label="open menu" data-nav-toggler>
+        <ion-icon name="menu-outline" aria-hidden="true"></ion-icon>
+      </button>
+
+      <a href="pages/contact.html" class="btn-outline">Lets talk</a>
+
+      <div class="overlay" data-nav-toggler data-overlay></div>
+
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="container">
+      <h1 id="blog-title" class="section-title"></h1>
+      <article id="blog-content" class="blog-content"></article>
+    </div>
+  </section>
+
+  <script>
+    async function fetchBlogDetail() {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const blogId = params.get('id');
+        if (!blogId) {
+          document.getElementById('blog-content').innerHTML = `<p>Error: No blog ID provided in the URL.</p>`;
+          return;
+        }
+
+        const { data: blog, error } = await supabase
+          .from('blogs')
+          .select('*')
+          .eq('id', blogId)
+          .single();
+
+        if (error) {
+          console.error('Supabase Error:', error);
+          document.getElementById('blog-content').innerHTML = `<p>Error fetching blog details. Please try again later.</p>`;
+          return;
+        }
+
+        if (!blog) {
+          document.getElementById('blog-content').innerHTML = `<p>Error: Blog not found.</p>`;
+          return;
+        }
+
+        document.getElementById('blog-title').textContent = blog.title;
+        document.getElementById('blog-content').innerHTML = blog.content;
+
+      } catch (err) {
+        console.error('Unexpected Error:', err);
+        document.getElementById('blog-content').innerHTML = `<p>Unexpected error occurred. Please try again later.</p>`;
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', fetchBlogDetail);
+
+  </script>
+
+</body>
+
+</html>

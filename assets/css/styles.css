@@ -71,10 +71,6 @@
 
 }
 
-
-
-
-
 /*-----------------------------------*\
   #RESET
 \*-----------------------------------*/
@@ -121,7 +117,7 @@ address { font-style: normal; }
 html {
   font-family: var(--ff-poppins);
   font-size: 10px;
-  scroll-behavior: smooth;
+  /* scroll-behavior: smooth; */
 }
 
 body {
@@ -129,6 +125,7 @@ body {
   color: var(--granite-gray);
   font-size: 1.6rem;
   line-height: 1.7;
+  scroll-snap-type: y mandatory;
 }
 
 :focus-visible { outline-offset: 4px; }
@@ -352,6 +349,26 @@ body {
 }
 
 
+/*-----------------------------------*\
+  #SNAP-SCROLLING
+\*-----------------------------------*/
+
+/* Parent container for snapping */
+.snap-container {
+  scroll-snap-type: y mandatory; /* Enables vertical snapping */
+  overflow-y: scroll; /* Ensures scrolling behavior */
+  height: 100vh; /* Makes each section take the full viewport height */
+}
+
+/* Sections within the container */
+.snap-section {
+  scroll-snap-align: start; /* Snaps to the top of each section */
+  height: 100vh; /* Each section occupies the full height of the viewport */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--section-padding);
+}
 
 
 
@@ -485,9 +502,6 @@ body {
 }
 
 
-
-
-
 /*-----------------------------------*\
   #SERVICE
 \*-----------------------------------*/
@@ -527,8 +541,6 @@ body {
 .service-card .card-text { margin-block: 5px 13px; }
 
 .service .btn { margin-inline: auto; }
-
-
 
 
 
@@ -575,9 +587,6 @@ body {
 .features-card :is(.card-title, .card-text) { transition: var(--transition-1); }
 
 .features-card:hover :is(.card-title, .card-text) { color: var(--white); }
-
-
-
 
 
 /*-----------------------------------*\
@@ -656,9 +665,6 @@ body {
 .faq-card .card-content p { margin-block: 15px; }
 
 .faq-card .card-action.active + .card-content { max-height: 500px; }
-
-
-
 
 
 /*-----------------------------------*\
@@ -788,9 +794,6 @@ body {
 .footer-bottom-link:is(:hover, :focus) { color: var(--go-green); }
 
 
-
-
-
 /*-----------------------------------*\
   #MEDIA QUERIES 
 \*-----------------------------------*/
@@ -822,6 +825,7 @@ body {
    */
 
   .container {
+    scroll-snap-align: start;
     max-width: 540px;
     width: 100%;
     margin-inline: auto;
